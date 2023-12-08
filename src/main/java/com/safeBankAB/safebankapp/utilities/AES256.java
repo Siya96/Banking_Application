@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@Deprecated
 public final class AES256 {
 
 
