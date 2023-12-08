@@ -40,6 +40,8 @@ public class Account {
     private Date expiryDate;
 
 
+    public Account () {}
+
     public Account(double accountBalance, String bankName) {
 
         /* TODO

@@ -8,6 +8,7 @@ public class RegularExpressions {
      * Only lettters
      */
     public static final Pattern ACCOUNT_NAME = Pattern.compile("^[A-Za-z]+$");
+
     /**
      * Password must contain at least one digit [0-9].
      * Password must contain at least one lowercase Latin character [a-z].

@@ -28,9 +28,7 @@ public class EncryptedUserData {
     @OneToOne(mappedBy = "encryptedUserData", fetch = FetchType.LAZY)
     private User user;
 
-    public EncryptedUserData() {
-
-    }
+    public EncryptedUserData (){}
     public EncryptedUserData(String encryptedPassword, String secretKey, String initializationVector) {
 
         this.encryptedPassword = encryptedPassword;

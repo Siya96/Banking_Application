@@ -9,7 +9,7 @@ public class Constants {
 
     public static final String SUCCESSFULLY_CREATED_USER_AND_ACCOUNT = "Successfully created user and account";
 
-    public static final String FAILED_INPUT_VALIDATION = "Successfully created user and account";
+    public static final String FAILED_INPUT_VALIDATION = "Unsuccessfully created user and account";
 
     public static final String AES_STANDARD = "AES";
 
