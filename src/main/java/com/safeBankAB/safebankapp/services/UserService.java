@@ -38,16 +38,21 @@ public class UserService {
     public Pair<User, Status> createUser(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
         User user;
         Status status;
-        if (getUser(name, socialSecurityNumber) == null) {
+        if (!isUSerRegistered(name, socialSecurityNumber)) {
             user = new User(name, socialSecurityNumber);
             user.setEncryptedUserData(encryptedUserData);
             status = Status.USER_CREATED;
+            userRepo.save(user);
         }
         else {
             user = getUser(name, socialSecurityNumber);
             status = Status.USER_ALREADY_EXISTS;
         }
-        return Pair.of(userRepo.save(user), status);
+        return Pair.of(user, status);
+    }
+
+    public boolean isUSerRegistered(String name, String socialSecurityNumber) {
+        return getUser(name, socialSecurityNumber) != null;
     }
     public User getUser(String name, String socialSecurityNumber) {
         Optional<User> user = userRepo.findByNameAndSocialSecurityNumber(name, socialSecurityNumber);

@@ -1,6 +1,7 @@
 package com.safeBankAB.safebankapp.controllers;
 
 
+import com.safeBankAB.safebankapp.DataTransferObjects.CreatedAccountDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,17 +50,16 @@ public class AccountRestController {
     )
     public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
 
-        if (InputValidator.checkCreateAccountInput(createAccountInput)) {
-            EncryptedUserData encryptedUserData = encryptedUserDataService.createEncryptedUserPassword(createAccountInput.getPassword());
-            Pair<User, Status> pair = userService.createUser(createAccountInput.getName(), createAccountInput.getSocialSecurityNumber(), encryptedUserData);
-            Account account = accountService.createAccount(pair.getFirst(), createAccountInput.getBankName());
-            if (pair.getSecond() == Status.USER_ALREADY_EXISTS) {
-                return new ResponseEntity<>(Constants.USER_ALREADY_EXISTS, HttpStatus.ACCEPTED);
-            }
-            return new ResponseEntity<>(Constants.SUCCESSFULLY_CREATED_USER_AND_ACCOUNT, HttpStatus.ACCEPTED);
+         CreatedAccountDTO createdAccountDTO = accountService.createAccount(createAccountInput);
+        if (createdAccountDTO.getCreatedAccountStatus() == Status.ACCOUNT_CREATED) {
+            return ResponseEntity.ok(createdAccountDTO);
         }
-
-        return new ResponseEntity<>(Constants.FAILED_INPUT_VALIDATION, HttpStatus.ACCEPTED);
+        else if (createdAccountDTO.getCreatedAccountStatus() == Status.USER_ALREADY_EXISTS) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(createdAccountDTO);
+        }
+        else {
+            return ResponseEntity.unprocessableEntity().body(createdAccountDTO);
+        }
     }
     @GetMapping(
             value = "/checkAccountBalance",

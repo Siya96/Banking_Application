@@ -1,6 +1,9 @@
 package com.safeBankAB.safebankapp.services;
 
 
+import com.safeBankAB.safebankapp.DataTransferObjects.CreatedAccountDTO;
+import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
+import com.safeBankAB.safebankapp.utilities.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,6 @@ import com.safeBankAB.safebankapp.repo.AccountRepo;
 @Service
 public class AccountService {
 
-
     private final AccountRepo accountRepo;
     private final UserService userService;
     private final EncryptedUserDataService encryptedUserDataService;
@@ -25,47 +27,21 @@ public class AccountService {
         this.encryptedUserDataService = encryptedUserDataService;
     }
 
+    public CreatedAccountDTO createAccount(CreateAccountInput createAccountInput){
 
+        if(InputValidator.checkCreateAccountInput(createAccountInput)) {
 
-    public Account createAccount(User user, String bankName){
+            EncryptedUserData encryptedUserData = encryptedUserDataService.createEncryptedUserPassword(createAccountInput.getPassword());
+            Pair<User, Status> createdUser = userService.createUser(createAccountInput.getName(), createAccountInput.getSocialSecurityNumber(), encryptedUserData);
 
-
-        /* TODO
-        Verify if user exists
-         */
-
-        Account newAccount = new Account(bankName);
-        newAccount.setUser(user);
-        return accountRepo.save(newAccount);
-
-    }
-    public void CreateAccountTest() {
-
-        String s = "Siya";
-        String socsecnum = "960511-6847";
-        String password = "hello";
-        String bankName = "SEB";
-        double accountBalance = 120000;
-
-        String s2 = "Jackie";
-        String socsecnum2 = "940218-7483";
-        String password2 = "bye";
-        String bankName2 = "Swedbank";
-        double accountBalance2 = 109020000;
-
-        EncryptedUserData e = encryptedUserDataService.createEncryptedUserPassword(password);
-        EncryptedUserData e2 = encryptedUserDataService.createEncryptedUserPassword(password2);
-
-        Pair<User, Status> pair = userService.createUser(s, socsecnum, e);
-        Pair<User, Status> pair2 = userService.createUser(s2, socsecnum2, e2);
-
-        Account asccc = new Account(bankName);
-
-
-        Account acc = createAccount(pair.getFirst(), bankName);
-        Account acc2 = createAccount(pair2.getFirst(), bankName2);
-
-
+            if(createdUser.getSecond() == Status.USER_CREATED){
+                Account newAccount = new Account(createAccountInput.getBankName());
+                newAccount.setUser(createdUser.getFirst());
+                return new CreatedAccountDTO(accountRepo.save(newAccount), Status.ACCOUNT_CREATED);
+            }
+            return new CreatedAccountDTO(null, createdUser.getSecond());
+        }
+        return new CreatedAccountDTO(null,Status.BAD_ACCOUNT_REGISTRATION_INPUT);
     }
 
 }
