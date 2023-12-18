@@ -1,8 +1,11 @@
 package com.safeBankAB.safebankapp.repo;
 
+import com.safeBankAB.safebankapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.safeBankAB.safebankapp.model.Account;
+
+import java.util.Optional;
 
 /*
 Defining this interface serves two purposes:
@@ -14,5 +17,7 @@ Defining this interface serves two purposes:
  */
 @Repository
 public interface AccountRepo extends JpaRepository<Account, Long> {
+
+    Optional<Account> findByUser(User user);
 
 }

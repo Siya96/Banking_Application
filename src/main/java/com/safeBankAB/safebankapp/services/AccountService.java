@@ -3,6 +3,7 @@ package com.safeBankAB.safebankapp.services;
 
 import com.safeBankAB.safebankapp.DataTransferObjects.CreatedAccountDTO;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
+import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import com.safeBankAB.safebankapp.utilities.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -39,9 +40,25 @@ public class AccountService {
                 newAccount.setUser(createdUser.getFirst());
                 return new CreatedAccountDTO(accountRepo.save(newAccount), Status.ACCOUNT_CREATED);
             }
-            return new CreatedAccountDTO(null, createdUser.getSecond());
+            return new CreatedAccountDTO(null, Status.USER_ACCOUNT_ALREADY_EXISTS);
         }
         return new CreatedAccountDTO(null,Status.BAD_ACCOUNT_REGISTRATION_INPUT);
     }
+
+    public double checkAccountBalance(UserCredentialsInput userCredentialsInput) {
+        if(InputValidator.checkUserCredentialsInput(userCredentialsInput)) {
+            return switch (userService.verifyUser(userCredentialsInput)) {
+                case SUCCESSFUL_AUTHENTICATION ->
+                        accountRepo.findByUser(userService.getUser(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber()).get())
+                                .get()
+                                .getAccountBalance();
+                case FAILED_AUTHENTICATION -> 0.001;
+                case USER_DOES_NOT_EXIST -> 0.002;
+                default -> 0.002;
+            };
+        }
+        return 0.004;
+    }
+
 
 }

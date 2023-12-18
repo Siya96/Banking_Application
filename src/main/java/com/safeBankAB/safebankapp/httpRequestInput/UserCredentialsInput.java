@@ -2,7 +2,7 @@ package com.safeBankAB.safebankapp.httpRequestInput;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class GetAccountBalanceInput {
+public class UserCredentialsInput {
 
     @NotBlank(message = "Name cannot be empty")
     private String name;
@@ -20,7 +20,7 @@ public class GetAccountBalanceInput {
 //    @NotBlank(message = "Account number cannot be empty")
 //    private String accountNumber;
 
-    public GetAccountBalanceInput() {}
+    public UserCredentialsInput() {}
 
     public String getName() {
         return name;

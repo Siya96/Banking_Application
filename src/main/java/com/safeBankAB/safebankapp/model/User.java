@@ -43,7 +43,6 @@ public class User {
 
     }
     public User(String name, String socialSecurityNumber)  {
-
         this.name = name;
         this.socialSecurityNumber = socialSecurityNumber;
     }

@@ -1,24 +1,22 @@
 package com.safeBankAB.safebankapp.services;
 
+import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.repo.EncryptedUserDataRepo;
+import com.safeBankAB.safebankapp.utilities.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
 import com.safeBankAB.safebankapp.model.EncryptedUserData;
 import com.safeBankAB.safebankapp.model.User;
-import com.safeBankAB.safebankapp.repo.EncryptedUserDataRepo;
 import com.safeBankAB.safebankapp.repo.UserRepo;
-
 import java.util.Optional;
-
-
 
 
 @Service
 public class UserService {
-
     private final UserRepo userRepo;
-    private final EncryptedUserDataRepo encryptedUserDataRepo;
+    private final EncryptedUserDataService encryptedUserDataService;
 
     /*
      Constructor-injection:
@@ -30,37 +28,43 @@ public class UserService {
         You can just create mocks by yourself and inject them by simply calling the constructor
      */
     @Autowired
-    public UserService(UserRepo userRepo, EncryptedUserDataRepo encryptedUserDataRepo) {
+    public UserService(UserRepo userRepo, EncryptedUserDataService encryptedUserDataService) {
         this.userRepo = userRepo;
-        this.encryptedUserDataRepo = encryptedUserDataRepo;
+        this.encryptedUserDataService = encryptedUserDataService;
     }
 
     public Pair<User, Status> createUser(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
         User user;
         Status status;
-        if (!isUSerRegistered(name, socialSecurityNumber)) {
+        if (getUser(name, socialSecurityNumber).isEmpty()) {
             user = new User(name, socialSecurityNumber);
             user.setEncryptedUserData(encryptedUserData);
             status = Status.USER_CREATED;
             userRepo.save(user);
         }
         else {
-            user = getUser(name, socialSecurityNumber);
+            user = getUser(name, socialSecurityNumber).get();
             status = Status.USER_ALREADY_EXISTS;
         }
         return Pair.of(user, status);
     }
 
-    public boolean isUSerRegistered(String name, String socialSecurityNumber) {
-        return getUser(name, socialSecurityNumber) != null;
-    }
-    public User getUser(String name, String socialSecurityNumber) {
-        Optional<User> user = userRepo.findByNameAndSocialSecurityNumber(name, socialSecurityNumber);
-        return user.orElse(null);
+    public Status verifyUser(UserCredentialsInput userCredentialsInput) {
+        Optional<User> user = getUser(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber());
+        if(user.isPresent()) {
+            EncryptedUserData encryptedUserData = user.get().getEncryptedUserData();
+            if(encryptedUserDataService.decryptEncryptedUserPassword(encryptedUserData.getEncryptedPassword(), encryptedUserData.getSecretKey(), encryptedUserData.getInitializationVector()).equals(userCredentialsInput.getPassword())) {
+                return Status.SUCCESSFUL_AUTHENTICATION;
+            }
+            return Status.FAILED_AUTHENTICATION;
+        }
+        else {
+            return Status.USER_DOES_NOT_EXIST;
+        }
     }
 
-
-    public UserRepo getUserRepo() {
-        return this.userRepo;
+    public Optional<User> getUser(String name, String socialSecurityNumber) {
+            return userRepo.findByNameAndSocialSecurityNumber(name,socialSecurityNumber);
     }
+
 }

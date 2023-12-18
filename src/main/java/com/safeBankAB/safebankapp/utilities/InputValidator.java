@@ -2,7 +2,7 @@ package com.safeBankAB.safebankapp.utilities;
 
 import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.RegularExpressions;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
-import com.safeBankAB.safebankapp.httpRequestInput.GetAccountBalanceInput;
+import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 
 public class InputValidator {
 
@@ -15,7 +15,7 @@ public class InputValidator {
                 !c.getBankName().isBlank());
     }
 
-    public static boolean checkGetAccountBalanceInput(GetAccountBalanceInput g) {
+    public static boolean checkUserCredentialsInput(UserCredentialsInput g) {
         return (RegularExpressions.ACCOUNT_NAME.matcher(g.getName()).find() &&
                 RegularExpressions.SOCIAL_SECURITY_NUMBER_PATTERN.matcher(g.getSocialSecurityNumber()).find() &&
                 RegularExpressions.ACCOUNT_PASSWORD_PATTERN.matcher(g.getPassword()).find());

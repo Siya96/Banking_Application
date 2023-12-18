@@ -25,7 +25,7 @@ public class Account {
         @JoinColumn simply means that our Account entity will have a foreign key column named user_id referring
         to the primary attribute id of our User entity. We can therefore see this side/entity as the owning entity.
      */
-    @JoinColumn(name = "socialSecurityNumber", referencedColumnName = "socialSecurityNumber")
+    @JoinColumn()
     private User user;
 
     private double accountBalance;
