@@ -1,7 +1,7 @@
 package com.safeBankAB.safebankapp.services;
 
 
-import com.safeBankAB.safebankapp.DataTransferObjects.CreatedAccountDTO;
+import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import com.safeBankAB.safebankapp.utilities.InputValidator;
@@ -28,7 +28,7 @@ public class AccountService {
         this.encryptedUserDataService = encryptedUserDataService;
     }
 
-    public CreatedAccountDTO createAccount(CreateAccountInput createAccountInput){
+    public AccountDTO createAccount(CreateAccountInput createAccountInput){
 
         if(InputValidator.checkCreateAccountInput(createAccountInput)) {
 
@@ -38,26 +38,25 @@ public class AccountService {
             if(createdUser.getSecond() == Status.USER_CREATED){
                 Account newAccount = new Account(createAccountInput.getBankName());
                 newAccount.setUser(createdUser.getFirst());
-                return new CreatedAccountDTO(accountRepo.save(newAccount), Status.ACCOUNT_CREATED);
+                return new AccountDTO(accountRepo.save(newAccount), Status.ACCOUNT_CREATED);
             }
-            return new CreatedAccountDTO(null, Status.USER_ACCOUNT_ALREADY_EXISTS);
+            return new AccountDTO(null, Status.USER_ACCOUNT_ALREADY_EXISTS);
         }
-        return new CreatedAccountDTO(null,Status.BAD_ACCOUNT_REGISTRATION_INPUT);
+        return new AccountDTO(null,Status.BAD_ACCOUNT_REGISTRATION_INPUT);
     }
 
-    public double checkAccountBalance(UserCredentialsInput userCredentialsInput) {
+    public AccountDTO checkAccountBalance(UserCredentialsInput userCredentialsInput) {
         if(InputValidator.checkUserCredentialsInput(userCredentialsInput)) {
             return switch (userService.verifyUser(userCredentialsInput)) {
-                case SUCCESSFUL_AUTHENTICATION ->
-                        accountRepo.findByUser(userService.getUser(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber()).get())
-                                .get()
-                                .getAccountBalance();
-                case FAILED_AUTHENTICATION -> 0.001;
-                case USER_DOES_NOT_EXIST -> 0.002;
-                default -> 0.002;
+                case SUCCESSFUL_AUTHENTICATION -> new AccountDTO(accountRepo.findByUser(userService.getUser(userCredentialsInput.getName(),
+                                userCredentialsInput.getSocialSecurityNumber()).get())
+                        .get(), Status.SUCCESSFUL_AUTHENTICATION);
+                case FAILED_AUTHENTICATION -> new AccountDTO(null, Status.FAILED_AUTHENTICATION);
+                case USER_DOES_NOT_EXIST -> new AccountDTO(null, Status.USER_DOES_NOT_EXIST);
+                default -> new AccountDTO(null, Status.UNKNOWN_ERROR);
             };
         }
-        return 0.004;
+        return new AccountDTO(null, Status.INVALID_USER_CREDENTIALS);
     }
 
 

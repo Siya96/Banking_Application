@@ -1,7 +1,7 @@
 package com.safeBankAB.safebankapp.controllers;
 
 
-import com.safeBankAB.safebankapp.DataTransferObjects.CreatedAccountDTO;
+import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,16 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Constants;
 import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
-import com.safeBankAB.safebankapp.model.EncryptedUserData;
-import com.safeBankAB.safebankapp.model.User;
 import com.safeBankAB.safebankapp.services.AccountService;
-import com.safeBankAB.safebankapp.services.EncryptedUserDataService;
-import com.safeBankAB.safebankapp.services.UserService;
-import com.safeBankAB.safebankapp.utilities.InputValidator;
 
 import java.lang.invoke.MethodHandles;
 
@@ -42,7 +36,7 @@ public class AccountRestController {
     )
     public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
 
-         CreatedAccountDTO createdAccountDTO = accountService.createAccount(createAccountInput);
+         AccountDTO createdAccountDTO = accountService.createAccount(createAccountInput);
         if (createdAccountDTO.getCreatedAccountStatus() == Status.ACCOUNT_CREATED) {
             return ResponseEntity.ok(createdAccountDTO);
         }
@@ -53,53 +47,25 @@ public class AccountRestController {
             return ResponseEntity.unprocessableEntity().body(createdAccountDTO);
         }
     }
-/*    @GetMapping(
-            value = "/checkAccountBalance",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<String> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
-
-        if (InputValidator.checkUserCredentialsInput(userCredentialInput)) {
-
-            User user = userService.getUser(userCredentialInput.getName(), userCredentialInput.getSocialSecurityNumber());
-            if (user == null) {
-                return new ResponseEntity<>(Constants.USER_DO_NOT_EXIST, HttpStatus.ACCEPTED);
-            }
-
-            EncryptedUserData encryptedUserData = user.getEncryptedUserData();
-
-            if (encryptedUserDataService.decryptEncryptedUserPassword(encryptedUserData.getEncryptedPassword(), encryptedUserData.getSecretKey(), encryptedUserData.getInitializationVector()).equals(userCredentialInput.getPassword())) {
-
-                return new ResponseEntity<>("Successfull authentication", HttpStatus.ACCEPTED);
-            }
-
-            return new ResponseEntity<>("Failed authentication", HttpStatus.ACCEPTED);
-
-        }
-        return new ResponseEntity<>("Not valid input" + userCredentialInput.getPassword(),HttpStatus.ACCEPTED);
-    }*/
-
-
     @GetMapping(
             value = "/checkAccountBalance",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<String> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
+    public ResponseEntity<?> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
 
-        double balance = accountService.checkAccountBalance(userCredentialInput);
-        if(balance == 0.001) {
-            return ResponseEntity.badRequest().body("0.001");
+        AccountDTO accountDTO = accountService.checkAccountBalance(userCredentialInput);
+        if(accountDTO.getCreatedAccountStatus() == Status.SUCCESSFUL_AUTHENTICATION) {
+            return ResponseEntity.badRequest().body(accountDTO.getAccount().getAccountBalance());
         }
-        else if (balance == 0.002) {
-            return ResponseEntity.badRequest().body("0.002");
+        else if(accountDTO.getCreatedAccountStatus() == Status.FAILED_AUTHENTICATION) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Status.FAILED_AUTHENTICATION);
         }
-        else if (balance == 0.003) {
-            return ResponseEntity.badRequest().body("0.003");
+        else if(accountDTO.getCreatedAccountStatus() == Status.USER_DOES_NOT_EXIST) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Status.USER_DOES_NOT_EXIST);
         }
         else {
-            return ResponseEntity.ok(""+balance);
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(Status.INVALID_USER_CREDENTIALS);
         }
     }
 

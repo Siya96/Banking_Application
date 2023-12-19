@@ -6,15 +6,15 @@ import jakarta.annotation.Nullable;
 import lombok.Getter;
 
 @Getter
-public class CreatedAccountDTO {
+public class AccountDTO {
 
     @Nullable
-    private final Account createdAccount;
+    private final Account account;
     private final Status createdAccountStatus;
 
-    public CreatedAccountDTO (Account createdAccount, Status createdAccountStatus) {
-        this.createdAccount = createdAccount;
-        this.createdAccountStatus = createdAccountStatus;
+    public AccountDTO(Account account, Status accountStatus) {
+        this.account = account;
+        this.createdAccountStatus = accountStatus;
     }
 
 }
