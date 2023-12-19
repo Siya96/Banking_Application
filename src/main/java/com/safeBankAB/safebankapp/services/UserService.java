@@ -1,8 +1,6 @@
 package com.safeBankAB.safebankapp.services;
 
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
-import com.safeBankAB.safebankapp.repo.EncryptedUserDataRepo;
-import com.safeBankAB.safebankapp.utilities.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -53,7 +51,7 @@ public class UserService {
         Optional<User> user = getUser(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber());
         if(user.isPresent()) {
             EncryptedUserData encryptedUserData = user.get().getEncryptedUserData();
-            if(encryptedUserDataService.decryptEncryptedUserPassword(encryptedUserData.getEncryptedPassword(), encryptedUserData.getSecretKey(), encryptedUserData.getInitializationVector()).equals(userCredentialsInput.getPassword())) {
+            if(encryptedUserDataService.verifyUserPassword(userCredentialsInput.getPassword(), encryptedUserData.getEncryptedPassword())) {
                 return Status.SUCCESSFUL_AUTHENTICATION;
             }
             return Status.FAILED_AUTHENTICATION;

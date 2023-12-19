@@ -65,7 +65,7 @@ public class AccountRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Status.USER_DOES_NOT_EXIST);
         }
         else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(Status.INVALID_USER_CREDENTIALS);
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(Status.BAD_USER_CREDENTIALS_INPUT);
         }
     }
 

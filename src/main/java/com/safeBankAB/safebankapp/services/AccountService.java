@@ -46,8 +46,11 @@ public class AccountService {
     }
 
     public AccountDTO checkAccountBalance(UserCredentialsInput userCredentialsInput) {
+
         if(InputValidator.checkUserCredentialsInput(userCredentialsInput)) {
+
             return switch (userService.verifyUser(userCredentialsInput)) {
+
                 case SUCCESSFUL_AUTHENTICATION -> new AccountDTO(accountRepo.findByUser(userService.getUser(userCredentialsInput.getName(),
                                 userCredentialsInput.getSocialSecurityNumber()).get())
                         .get(), Status.SUCCESSFUL_AUTHENTICATION);
@@ -56,7 +59,7 @@ public class AccountService {
                 default -> new AccountDTO(null, Status.UNKNOWN_ERROR);
             };
         }
-        return new AccountDTO(null, Status.INVALID_USER_CREDENTIALS);
+        return new AccountDTO(null, Status.BAD_USER_CREDENTIALS_INPUT);
     }
 
 
