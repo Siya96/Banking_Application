@@ -1,13 +1,15 @@
 package com.safeBankAB.safebankapp.services;
 
+import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
-import com.safeBankAB.safebankapp.model.EncryptedUserData;
-import com.safeBankAB.safebankapp.model.User;
+import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
+import com.safeBankAB.safebankapp.model.entities.User;
 import com.safeBankAB.safebankapp.repo.UserRepo;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 
@@ -31,20 +33,17 @@ public class UserService {
         this.encryptedUserDataService = encryptedUserDataService;
     }
 
-    public Pair<User, Status> createUser(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
+    @Transactional
+    public UserDTO createUser(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
         User user;
-        Status status;
         if (getUser(name, socialSecurityNumber).isEmpty()) {
             user = new User(name, socialSecurityNumber);
             user.setEncryptedUserData(encryptedUserData);
-            status = Status.USER_CREATED;
-            userRepo.save(user);
+            return new UserDTO(userRepo.save(user), Status.USER_CREATED);
         }
         else {
-            user = getUser(name, socialSecurityNumber).get();
-            status = Status.USER_ALREADY_EXISTS;
+            return new UserDTO(getUser(name, socialSecurityNumber).get(), Status.USER_ALREADY_EXISTS);
         }
-        return Pair.of(user, status);
     }
 
     public Status verifyUser(UserCredentialsInput userCredentialsInput) {

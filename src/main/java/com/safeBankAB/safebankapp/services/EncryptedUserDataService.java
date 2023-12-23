@@ -3,7 +3,7 @@ package com.safeBankAB.safebankapp.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.safeBankAB.safebankapp.model.EncryptedUserData;
+import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
 import com.safeBankAB.safebankapp.repo.EncryptedUserDataRepo;
 
 import java.security.SecureRandom;
@@ -13,7 +13,7 @@ public class EncryptedUserDataService {
 
     private final EncryptedUserDataRepo encryptedUserDataRepo;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A, 16, new SecureRandom());
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A, 14, new SecureRandom());
 
 
     @Autowired

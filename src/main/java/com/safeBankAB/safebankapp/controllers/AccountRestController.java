@@ -69,23 +69,5 @@ public class AccountRestController {
         }
     }
 
-    @PutMapping(
-            value = "/depositToAccount",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<?> depositToAccount(){
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @PutMapping(
-            value = "/withdrawFromAccount",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<?> withdrawFromAccount(){
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
 
 }

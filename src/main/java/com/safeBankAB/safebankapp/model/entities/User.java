@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.model;
+package com.safeBankAB.safebankapp.model.entities;
 
 
 import jakarta.persistence.*;

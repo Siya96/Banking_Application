@@ -1,7 +1,7 @@
 package com.safeBankAB.safebankapp.DataTransferObjects;
 
 import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
-import com.safeBankAB.safebankapp.model.Account;
+import com.safeBankAB.safebankapp.model.entities.Account;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 
