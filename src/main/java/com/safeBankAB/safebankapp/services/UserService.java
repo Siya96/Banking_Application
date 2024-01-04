@@ -4,7 +4,7 @@ import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
+import com.safeBankAB.safebankapp.utilities.Status;
 import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
 import com.safeBankAB.safebankapp.model.entities.User;
 import com.safeBankAB.safebankapp.repo.UserRepo;

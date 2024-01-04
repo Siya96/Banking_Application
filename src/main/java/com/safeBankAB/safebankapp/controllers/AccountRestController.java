@@ -10,17 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns.Status;
+import com.safeBankAB.safebankapp.utilities.Status;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import com.safeBankAB.safebankapp.services.AccountService;
 
-import java.lang.invoke.MethodHandles;
-
 @RestController
 public class AccountRestController {
 
-    private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final Logger logger = LoggerFactory.getLogger(AccountRestController.class);
     private final AccountService accountService;
 
     //Constructor-injection

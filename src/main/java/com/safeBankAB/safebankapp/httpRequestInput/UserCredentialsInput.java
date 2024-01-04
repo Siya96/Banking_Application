@@ -20,8 +20,6 @@ public class UserCredentialsInput {
 //    @NotBlank(message = "Account number cannot be empty")
 //    private String accountNumber;
 
-    public UserCredentialsInput() {}
-
     public String getName() {
         return name;
     }

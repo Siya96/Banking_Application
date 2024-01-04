@@ -16,9 +16,6 @@ public class CreateAccountInput {
     private String bankName;
     @Nullable
     private double accountBalance;
-    public CreateAccountInput() {
-
-    }
 
     public String getName() {
         return name;

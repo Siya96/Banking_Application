@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns;
+package com.safeBankAB.safebankapp.utilities;
 
 public class Constants {
 

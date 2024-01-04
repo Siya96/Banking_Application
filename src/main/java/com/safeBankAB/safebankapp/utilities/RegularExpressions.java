@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.constantsEnumerationsAndPatterns;
+package com.safeBankAB.safebankapp.utilities;
 
 import java.util.regex.Pattern;
 
@@ -16,7 +16,9 @@ public class RegularExpressions {
      * Password must contain at least one special character like ! @ # & ( ) %.
      * Password must contain a length of at least 8 characters and a maximum of 20 characters.
      */
-    public static final Pattern ACCOUNT_PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%#&()–[{}]:;',?/*~$^+=<>]).{8,20}$");
+    //public static final Pattern ACCOUNT_PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%#&()–[{}]:;',?/*~$^+=<>]).{8,20}$");
+    public static final Pattern ACCOUNT_PASSWORD_PATTERN = Pattern.compile("^(?=.*\\d.)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%#&()–[{}]:;',?/*~$^+=<>]).{8,20}$");
+
 
     /**
      * Password must contain at least eight digits [0-9].

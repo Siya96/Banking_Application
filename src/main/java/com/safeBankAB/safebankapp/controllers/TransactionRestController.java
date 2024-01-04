@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/transaction")
-public class TransactionsRestController {
+public class TransactionRestController {
 
 
     @Autowired
-    public TransactionsRestController () {
+    public TransactionRestController() {
 
     }
     @PutMapping(
