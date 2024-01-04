@@ -11,10 +11,6 @@ public class Constants {
 
     public static final String FAILED_INPUT_VALIDATION = "Unsuccessfully created user and account";
 
-    public static final String AES_STANDARD = "AES";
-
-    public static final String AES_CDC_PKCS5PADDING_ALGORITHM = "AES/CBC/PKCS5Padding";
-
     public static final int AES_128 = 128;
 
     public static final int AES_192 = 192;
