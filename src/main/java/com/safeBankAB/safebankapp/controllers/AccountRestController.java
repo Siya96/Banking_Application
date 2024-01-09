@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +33,17 @@ public class AccountRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
+    public ResponseEntity<AccountDTO> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
 
-         AccountDTO createdAccountDTO = accountService.createAccount(createAccountInput);
-        if (createdAccountDTO.getCreatedAccountStatus() == Status.ACCOUNT_CREATED) {
-            return ResponseEntity.ok(createdAccountDTO);
+         AccountDTO accountDTO = accountService.createAccount(createAccountInput);
+        if (accountDTO.getCreatedAccountStatus() == Status.ACCOUNT_CREATED) {
+            return ResponseEntity.ok(accountDTO);
         }
-        else if (createdAccountDTO.getCreatedAccountStatus() == Status.USER_ACCOUNT_ALREADY_EXISTS) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(createdAccountDTO);
+        else if (accountDTO.getCreatedAccountStatus() == Status.USER_ACCOUNT_ALREADY_EXISTS) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(accountDTO);
         }
         else {
-            return ResponseEntity.unprocessableEntity().body(createdAccountDTO);
+            return ResponseEntity.unprocessableEntity().body(accountDTO);
         }
     }
     @GetMapping(
@@ -50,20 +51,20 @@ public class AccountRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
+    public ResponseEntity<Double> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
 
         AccountDTO accountDTO = accountService.checkAccountBalance(userCredentialInput);
         if(accountDTO.getCreatedAccountStatus() == Status.SUCCESSFUL_AUTHENTICATION) {
             return ResponseEntity.badRequest().body(accountDTO.getAccount().getAccountBalance());
         }
         else if(accountDTO.getCreatedAccountStatus() == Status.FAILED_AUTHENTICATION) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Status.FAILED_AUTHENTICATION);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         else if(accountDTO.getCreatedAccountStatus() == Status.USER_DOES_NOT_EXIST) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Status.USER_DOES_NOT_EXIST);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(Status.BAD_USER_CREDENTIALS_INPUT);
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
     }
 
