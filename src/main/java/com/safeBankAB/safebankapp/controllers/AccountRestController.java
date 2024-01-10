@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +59,7 @@ public class AccountRestController {
         else if(accountDTO.getCreatedAccountStatus() == Status.FAILED_AUTHENTICATION) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        else if(accountDTO.getCreatedAccountStatus() == Status.USER_DOES_NOT_EXIST) {
+        else if(accountDTO.getCreatedAccountStatus() == Status.USER_NOT_FOUND) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         else {
