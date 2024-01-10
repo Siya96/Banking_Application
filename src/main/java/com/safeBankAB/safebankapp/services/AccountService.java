@@ -48,6 +48,7 @@ public class AccountService {
 
         if(InputValidator.checkUserCredentialsInput(userCredentialsInput)) {
 
+            //Maybe let .verifyUserreturn Optional and use ifPrsentOrEse() from there to perform necessary action
             return switch (userService.verifyUser(userCredentialsInput)) {
 
                 case SUCCESSFUL_AUTHENTICATION -> createAccountDTO(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber(), Status.SUCCESSFUL_AUTHENTICATION);
