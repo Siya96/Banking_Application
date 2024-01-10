@@ -50,15 +50,22 @@ public class AccountService {
 
             return switch (userService.verifyUser(userCredentialsInput)) {
 
-                case SUCCESSFUL_AUTHENTICATION -> new AccountDTO(accountRepo.findByUser(userService.getUser(userCredentialsInput.getName(),
-                                userCredentialsInput.getSocialSecurityNumber()).get())
-                        .get(), Status.SUCCESSFUL_AUTHENTICATION);
-                case FAILED_AUTHENTICATION -> new AccountDTO(null, Status.FAILED_AUTHENTICATION);
-                case USER_DOES_NOT_EXIST -> new AccountDTO(null, Status.USER_DOES_NOT_EXIST);
-                default -> new AccountDTO(null, Status.UNKNOWN_ERROR);
+                case SUCCESSFUL_AUTHENTICATION -> createAccountDTO(userCredentialsInput.getName(), userCredentialsInput.getSocialSecurityNumber(), Status.SUCCESSFUL_AUTHENTICATION);
+                case FAILED_AUTHENTICATION -> createAccountDTO(null, null, Status.FAILED_AUTHENTICATION);
+                case USER_NOT_FOUND -> createAccountDTO(null, null, Status.USER_NOT_FOUND);
+                default -> createAccountDTO(null, null, Status.UNKNOWN_ERROR);
             };
         }
-        return new AccountDTO(null, Status.BAD_USER_CREDENTIALS_INPUT);
+        return createAccountDTO(null, null, Status.BAD_USER_CREDENTIALS_INPUT);
+    }
+
+    private AccountDTO createAccountDTO(String username, String socialSecurityNumber, Status status) {
+        return userService.getUser(username, socialSecurityNumber).isPresent() ?
+                        accountRepo.findByUser(userService.getUser(username, socialSecurityNumber).get()).isPresent() ?
+                                new AccountDTO(accountRepo.findByUser(userService.getUser(username, socialSecurityNumber).get()).get(), status)
+                                :  new AccountDTO(null, Status.ACCOUNT_NOT_FOUND)
+                        : new AccountDTO(null, status);
+
     }
 
 

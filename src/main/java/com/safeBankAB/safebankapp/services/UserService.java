@@ -56,7 +56,7 @@ public class UserService {
             return Status.FAILED_AUTHENTICATION;
         }
         else {
-            return Status.USER_DOES_NOT_EXIST;
+            return Status.USER_NOT_FOUND;
         }
     }
 
