@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.httpRequestInput;
+package com.safeBankAB.safebankapp.model.httpRequestInput;
 
 import jakarta.validation.constraints.NotBlank;
 

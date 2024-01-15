@@ -1,8 +1,8 @@
 package com.safeBankAB.safebankapp.services;
 
 import com.safeBankAB.safebankapp.utilities.RegularExpressions;
-import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.model.httpRequestInput.CreateAccountInput;
+import com.safeBankAB.safebankapp.model.httpRequestInput.UserCredentialsInput;
 
 public class InputValidator {
 

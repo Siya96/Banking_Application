@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.model.httpRequestInput.CreateAccountInput;
+import com.safeBankAB.safebankapp.model.httpRequestInput.UserCredentialsInput;
 import com.safeBankAB.safebankapp.services.AccountService;
 
 @RestController

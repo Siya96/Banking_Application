@@ -1,7 +1,7 @@
 package com.safeBankAB.safebankapp.services;
 
 import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.model.httpRequestInput.UserCredentialsInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.utilities.Status;
