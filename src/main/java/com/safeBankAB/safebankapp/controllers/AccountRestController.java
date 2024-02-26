@@ -35,10 +35,10 @@ public class AccountRestController {
     public ResponseEntity<AccountDTO> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
 
          AccountDTO accountDTO = accountService.createAccount(createAccountInput);
-        if (accountDTO.getCreatedAccountStatus() == Status.ACCOUNT_CREATED) {
+        if (accountDTO.getStatus() == Status.ACCOUNT_CREATED) {
             return ResponseEntity.ok(accountDTO);
         }
-        else if (accountDTO.getCreatedAccountStatus() == Status.USER_ACCOUNT_ALREADY_EXISTS) {
+        else if (accountDTO.getStatus() == Status.USER_ACCOUNT_ALREADY_EXISTS) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(accountDTO);
         }
         else {
@@ -53,13 +53,13 @@ public class AccountRestController {
     public ResponseEntity<Double> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
 
         AccountDTO accountDTO = accountService.checkAccountBalance(userCredentialInput);
-        if(accountDTO.getCreatedAccountStatus() == Status.SUCCESSFUL_AUTHENTICATION) {
+        if(accountDTO.getStatus() == Status.SUCCESSFUL_AUTHENTICATION) {
             return ResponseEntity.badRequest().body(accountDTO.getAccount().getAccountBalance());
         }
-        else if(accountDTO.getCreatedAccountStatus() == Status.FAILED_AUTHENTICATION) {
+        else if(accountDTO.getStatus() == Status.FAILED_AUTHENTICATION) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        else if(accountDTO.getCreatedAccountStatus() == Status.USER_NOT_FOUND) {
+        else if(accountDTO.getStatus() == Status.USER_NOT_FOUND) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         else {

@@ -3,15 +3,12 @@ package com.safeBankAB.safebankapp.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
 import java.util.Set;
 
 
 /*
 Parent entity
  */
-@Data
 @Entity
 public class User {
 
@@ -53,4 +50,11 @@ public class User {
     }
 
 
+    public void setEncryptedUserData(EncryptedUserData encryptedUserData) {
+        this.encryptedUserData = encryptedUserData;
+    }
+
+    public EncryptedUserData getEncryptedUserData() {
+        return encryptedUserData;
+    }
 }

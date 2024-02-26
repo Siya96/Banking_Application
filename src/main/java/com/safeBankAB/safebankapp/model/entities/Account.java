@@ -3,14 +3,12 @@ package com.safeBankAB.safebankapp.model.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.util.Date;
 
 /*
 Child entity
  */
-@Data
 @Entity
 public class Account {
 
@@ -58,6 +56,9 @@ public class Account {
         this.bankName = bankName;
     }
 
+    public double getAccountBalance() {
+        return accountBalance;
+    }
 
     @Override
     public String toString() {

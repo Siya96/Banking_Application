@@ -2,9 +2,7 @@ package com.safeBankAB.safebankapp.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
 @Entity
 public class EncryptedUserData {
 

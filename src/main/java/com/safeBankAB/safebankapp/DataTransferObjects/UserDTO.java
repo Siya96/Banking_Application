@@ -2,9 +2,7 @@ package com.safeBankAB.safebankapp.DataTransferObjects;
 
 import com.safeBankAB.safebankapp.utilities.Status;
 import com.safeBankAB.safebankapp.model.entities.User;
-import lombok.Getter;
 
-@Getter
 public class UserDTO {
 
     private final User user;
@@ -13,5 +11,12 @@ public class UserDTO {
     public UserDTO(User user, Status status) {
         this.user = user;
         this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+    public User getUser() {
+        return user;
     }
 }
