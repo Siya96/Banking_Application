@@ -5,6 +5,7 @@ import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
 import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
 import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.utilities.Status;
@@ -13,6 +14,10 @@ import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
 import com.safeBankAB.safebankapp.repo.AccountRepo;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 @Service
 public class AccountService {
 
@@ -20,11 +25,14 @@ public class AccountService {
     private final UserService userService;
     private final EncryptedUserDataService encryptedUserDataService;
 
+    private final Random random;
+
     @Autowired
     public AccountService(AccountRepo accountRepo, UserService userService, EncryptedUserDataService encryptedUserDataService) {
         this.accountRepo = accountRepo;
         this.userService = userService;
         this.encryptedUserDataService = encryptedUserDataService;
+        this.random = new Random();
     }
 
     @Transactional
@@ -36,12 +44,24 @@ public class AccountService {
             UserDTO createdUser = userService.createUser(createAccountInput.getName(), createAccountInput.getSocialSecurityNumber(), encryptedUserData);
 
             if(createdUser.getStatus() == Status.USER_CREATED){
-                Account newAccount = new Account(createdUser.getUser(), createAccountInput.getBankName(), createAccountInput.getAccountBalance());
+                Account newAccount = new Account(createdUser.getUser(), createAccountInput.getBankName(), assignUniqueAccountNumber(), createAccountInput.getAccountBalance());
                 return new AccountDTO(accountRepo.save(newAccount), Status.ACCOUNT_CREATED);
             }
             return new AccountDTO(null, Status.USER_ACCOUNT_ALREADY_EXISTS);
         }
         return new AccountDTO(null,Status.BAD_ACCOUNT_REGISTRATION_INPUT);
+    }
+
+    private long assignUniqueAccountNumber() {
+        Set<Long> accountNumbers = new HashSet<>();
+        accountRepo.findAll()
+                .forEach(account -> accountNumbers.add(account.getAccountNumber()));
+        long newAccountNumber = Math.abs(random.nextLong() % Constants.ACCOUNT_NUMBER_SUFFIX_MODULO) + Constants.ACCOUNT_NUMBER_PREFIX_MODULO;
+        while(accountNumbers.contains(newAccountNumber)) {
+            newAccountNumber = Math.abs(random.nextLong() % Constants.ACCOUNT_NUMBER_SUFFIX_MODULO) + Constants.ACCOUNT_NUMBER_PREFIX_MODULO;
+        }
+
+        return newAccountNumber;
     }
 
     public AccountDTO checkAccountBalance(UserCredentialsInput userCredentialsInput) {

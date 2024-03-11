@@ -18,12 +18,12 @@ public class Account {
     private long id;
 
     @NotNull
-    @ManyToOne //Means that there can exist many accounts for one user
+    @ManyToOne(fetch = FetchType.LAZY)//Means that there can exist many accounts for one user
     /*
         @JoinColumn simply means that our Account entity will have a foreign key column named user_id referring
         to the primary attribute id of our User entity. We can therefore see this side/entity as the owning entity.
      */
-    @JoinColumn()
+    @JoinColumn(name = "user_ID")
     private User user;
 
     private double accountBalance;
@@ -40,11 +40,14 @@ public class Account {
 
     public Account () {}
 
-    public Account(User user, String bankName, double accountBalance) {
+    public Account(User user, String bankName, long acccountNumber, double accountBalance) {
 
         this.user = user;
-        this.accountBalance = accountBalance;
         this.bankName = bankName;
+        this.accountNumber = acccountNumber;
+        this.accountBalance = accountBalance;
+
+
     }
 
     public Account(String bankName) {
@@ -56,9 +59,26 @@ public class Account {
         this.bankName = bankName;
     }
 
+    public long getId() { return id; }
+    public User getUser() {
+        return user;
+    }
+
     public double getAccountBalance() {
         return accountBalance;
     }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public Long getAccountNumber() { return accountNumber; }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+
 
     @Override
     public String toString() {

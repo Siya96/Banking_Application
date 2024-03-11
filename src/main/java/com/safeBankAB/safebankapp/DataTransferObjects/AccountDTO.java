@@ -10,7 +10,7 @@ public class AccountDTO {
     private final Account account;
     private final Status status;
 
-    public AccountDTO(Account account, Status accountStatus) {
+    public AccountDTO(@Nullable Account account, Status accountStatus) {
         this.account = account;
         this.status = accountStatus;
     }
@@ -19,7 +19,12 @@ public class AccountDTO {
         return status;
     }
 
+    @Nullable
     public Account getAccount() {
         return account;
+    }
+
+    public boolean isAccountPresent() {
+        return account != null;
     }
 }

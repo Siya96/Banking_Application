@@ -6,5 +6,6 @@ import jakarta.persistence.Id;
 @Entity
 public class Transactions {
     @Id
-    private long id;
+    private long transActionId;
+
 }

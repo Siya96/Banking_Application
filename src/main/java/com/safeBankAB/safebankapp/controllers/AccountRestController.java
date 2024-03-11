@@ -15,6 +15,8 @@ import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
 import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
 import com.safeBankAB.safebankapp.services.AccountService;
 
+import java.util.Objects;
+
 @RestController
 public class AccountRestController {
 
@@ -54,7 +56,7 @@ public class AccountRestController {
 
         AccountDTO accountDTO = accountService.checkAccountBalance(userCredentialInput);
         if(accountDTO.getStatus() == Status.SUCCESSFUL_AUTHENTICATION) {
-            return ResponseEntity.badRequest().body(accountDTO.getAccount().getAccountBalance());
+            return ResponseEntity.badRequest().body(Objects.isNull(accountDTO.getAccount()) ? accountDTO.getAccount().getAccountBalance() : 0);
         }
         else if(accountDTO.getStatus() == Status.FAILED_AUTHENTICATION) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

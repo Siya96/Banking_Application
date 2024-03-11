@@ -12,5 +12,7 @@ public final class Constants {
 
     public static final String FAILED_INPUT_VALIDATION = "Unsuccessfully created user and account";
 
+    public static final Long ACCOUNT_NUMBER_SUFFIX_MODULO = 100000000000000L;
+    public static final Long ACCOUNT_NUMBER_PREFIX_MODULO = 5200000000000000L;
 
 }

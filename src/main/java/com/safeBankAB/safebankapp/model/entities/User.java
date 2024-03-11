@@ -39,20 +39,14 @@ public class User {
     public User() {
 
     }
-    public User(String name, String socialSecurityNumber)  {
+    public User(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
         this.name = name;
         this.socialSecurityNumber = socialSecurityNumber;
-    }
-
-    public String getName() {
-
-        return this.name;
-    }
-
-
-    public void setEncryptedUserData(EncryptedUserData encryptedUserData) {
         this.encryptedUserData = encryptedUserData;
     }
+
+    public String getSocialSecurityNumber() { return socialSecurityNumber; }
+    public String getName() { return this.name; }
 
     public EncryptedUserData getEncryptedUserData() {
         return encryptedUserData;
