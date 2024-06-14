@@ -23,7 +23,7 @@ public class RegularExpressions {
     /**
      * Password must contain at least eight digits [0-9].
      */
-    public static final Pattern ACCOUNT_NUMBER_PATTERN = Pattern.compile("^[0-9]{8}$");
+    public static final Pattern ACCOUNT_NUMBER_PATTERN = Pattern.compile("^[0-9]{16}$");
 
     public static final Pattern SOCIAL_SECURITY_NUMBER_PATTERN = Pattern.compile("^\\d{6}(?:\\d{2})?[-\\s]?\\d{4}$");
 

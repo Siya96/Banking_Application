@@ -31,7 +31,7 @@ public class Account {
     @NotBlank(message = "Bank name cannot be empty")
     private String bankName;
 
-    @NotNull
+    @Column(unique = true)
     private long accountNumber;
 
     @Temporal(TemporalType.DATE)

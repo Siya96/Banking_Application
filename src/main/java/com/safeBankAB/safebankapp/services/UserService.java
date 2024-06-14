@@ -11,6 +11,8 @@ import com.safeBankAB.safebankapp.repo.UserRepo;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -36,10 +38,8 @@ public class UserService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public UserDTO createUser(String name, String socialSecurityNumber, EncryptedUserData encryptedUserData)  {
-        User user;
         if (getUser(name, socialSecurityNumber).isEmpty()) {
-            user = new User(name, socialSecurityNumber, encryptedUserData);
-            //user.setEncryptedUserData(encryptedUserData);
+            User user = new User(name, socialSecurityNumber, encryptedUserData);
             return new UserDTO(userRepo.save(user), Status.USER_CREATED);
         }
         else {
