@@ -2,6 +2,12 @@ package com.safeBankAB.safebankapp.controllers;
 
 
 import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +35,14 @@ public class AccountRestController {
         this.accountService = accountService;
     }
 
+    @Operation(summary = "Create Account")
+    @Tag(name = "Account Ops")
     @PostMapping(
             value = "/createAccount",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AccountDTO> createAccount(@Valid @RequestBody CreateAccountInput createAccountInput)  {
 
          AccountDTO accountDTO = accountService.createAccount(createAccountInput);
@@ -47,11 +56,22 @@ public class AccountRestController {
             return ResponseEntity.unprocessableEntity().body(accountDTO);
         }
     }
+
+    @Operation(summary = "Get Account Balance")
+    @Tag(name = "Account Ops")
     @GetMapping(
             value = "/checkAccountBalance",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetch account balance", content = @Content(schema = @Schema(examples = "string"))),
+            @ApiResponse(responseCode = "400", description = "bad request", content = @Content(schema = @Schema(example = "string"))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(example = "string"))),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(example = "string"))),
+            @ApiResponse(responseCode = "412", description = "Failed validation", content = @Content(schema = @Schema(example = "string")))
+    })
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Double> getAccountBalance(@Valid @RequestBody UserCredentialsInput userCredentialInput) {
 
         AccountDTO accountDTO = accountService.checkAccountBalance(userCredentialInput);
