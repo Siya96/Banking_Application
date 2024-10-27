@@ -1,7 +1,7 @@
-package com.safeBankAB.safebankapp.DataTransferObjects;
+package com.safeBankAB.safebankapp.api.models.responses;
 
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.model.entities.User;
+import com.safeBankAB.safebankapp.repository.entitymodels.User;
 
 public class UserDTO {
 

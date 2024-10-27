@@ -1,8 +1,8 @@
-package com.safeBankAB.safebankapp.repo;
+package com.safeBankAB.safebankapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.safeBankAB.safebankapp.model.entities.User;
+import com.safeBankAB.safebankapp.repository.entitymodels.User;
 
 import java.util.Optional;
 

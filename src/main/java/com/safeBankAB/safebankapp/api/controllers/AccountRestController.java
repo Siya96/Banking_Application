@@ -1,7 +1,7 @@
-package com.safeBankAB.safebankapp.controllers;
+package com.safeBankAB.safebankapp.api.controllers;
 
 
-import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
+import com.safeBankAB.safebankapp.api.models.responses.AccountDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,15 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.api.models.requests.CreateAccountInput;
+import com.safeBankAB.safebankapp.api.models.requests.UserCredentialsInput;
 import com.safeBankAB.safebankapp.services.AccountService;
 
 import java.util.Objects;
 
 @RestController
+@Validated
 public class AccountRestController {
 
     private final Logger logger = LoggerFactory.getLogger(AccountRestController.class);

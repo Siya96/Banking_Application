@@ -3,8 +3,8 @@ package com.safeBankAB.safebankapp.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
-import com.safeBankAB.safebankapp.repo.EncryptedUserDataRepo;
+import com.safeBankAB.safebankapp.repository.entitymodels.EncryptedUserData;
+import com.safeBankAB.safebankapp.repository.EncryptedUserDataRepo;
 
 import java.security.SecureRandom;
 

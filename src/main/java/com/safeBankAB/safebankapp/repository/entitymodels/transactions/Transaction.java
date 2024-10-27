@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.model.transactions;
+package com.safeBankAB.safebankapp.repository.entitymodels.transactions;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.controllers;
+package com.safeBankAB.safebankapp.api.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

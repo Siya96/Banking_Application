@@ -1,7 +1,7 @@
-package com.safeBankAB.safebankapp.DataTransferObjects;
+package com.safeBankAB.safebankapp.api.models.responses;
 
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.model.entities.Account;
+import com.safeBankAB.safebankapp.repository.entitymodels.Account;
 import jakarta.annotation.Nullable;
 
 public class AccountDTO {
@@ -14,6 +14,7 @@ public class AccountDTO {
         this.account = account;
         this.status = accountStatus;
     }
+
 
     public Status getStatus() {
         return status;

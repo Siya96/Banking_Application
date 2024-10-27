@@ -1,4 +1,4 @@
-package com.safeBankAB.safebankapp.model.entities;
+package com.safeBankAB.safebankapp.repository.entitymodels;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

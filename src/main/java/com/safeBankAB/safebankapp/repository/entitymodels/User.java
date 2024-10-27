@@ -1,7 +1,8 @@
-package com.safeBankAB.safebankapp.model.entities;
+package com.safeBankAB.safebankapp.repository.entitymodels;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class User {
     @NotBlank(message = "Name cannot be empty")
     private String name;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "encryptedUserData_id")
     private EncryptedUserData encryptedUserData;

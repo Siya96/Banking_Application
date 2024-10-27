@@ -1,18 +1,16 @@
 package com.safeBankAB.safebankapp.services;
 
-import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.api.models.responses.UserDTO;
+import com.safeBankAB.safebankapp.api.models.requests.UserCredentialsInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
-import com.safeBankAB.safebankapp.model.entities.User;
-import com.safeBankAB.safebankapp.repo.UserRepo;
+import com.safeBankAB.safebankapp.repository.entitymodels.EncryptedUserData;
+import com.safeBankAB.safebankapp.repository.entitymodels.User;
+import com.safeBankAB.safebankapp.repository.UserRepo;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 

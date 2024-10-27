@@ -1,17 +1,17 @@
 package com.safeBankAB.safebankapp.services;
 
 
-import com.safeBankAB.safebankapp.DataTransferObjects.AccountDTO;
-import com.safeBankAB.safebankapp.DataTransferObjects.UserDTO;
-import com.safeBankAB.safebankapp.httpRequestInput.CreateAccountInput;
-import com.safeBankAB.safebankapp.httpRequestInput.UserCredentialsInput;
+import com.safeBankAB.safebankapp.api.models.responses.AccountDTO;
+import com.safeBankAB.safebankapp.api.models.responses.UserDTO;
+import com.safeBankAB.safebankapp.api.models.requests.CreateAccountInput;
+import com.safeBankAB.safebankapp.api.models.requests.UserCredentialsInput;
 import com.safeBankAB.safebankapp.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.safeBankAB.safebankapp.utilities.Status;
-import com.safeBankAB.safebankapp.model.entities.Account;
-import com.safeBankAB.safebankapp.model.entities.EncryptedUserData;
-import com.safeBankAB.safebankapp.repo.AccountRepo;
+import com.safeBankAB.safebankapp.repository.entitymodels.Account;
+import com.safeBankAB.safebankapp.repository.entitymodels.EncryptedUserData;
+import com.safeBankAB.safebankapp.repository.AccountRepo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;

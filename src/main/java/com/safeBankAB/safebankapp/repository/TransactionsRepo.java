@@ -1,6 +1,6 @@
-package com.safeBankAB.safebankapp.repo;
+package com.safeBankAB.safebankapp.repository;
 
-import com.safeBankAB.safebankapp.model.transactions.Transaction;
+import com.safeBankAB.safebankapp.repository.entitymodels.transactions.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
