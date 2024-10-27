@@ -31,7 +31,6 @@ public class AccountRestController {
     private final Logger logger = LoggerFactory.getLogger(AccountRestController.class);
     private final AccountService accountService;
 
-    //Constructor-injection
     @Autowired
     public AccountRestController(AccountService accountService) {
         this.accountService = accountService;

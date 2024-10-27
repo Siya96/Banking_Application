@@ -35,10 +35,10 @@ public class Account {
     private long accountNumber;
 
     @Temporal(TemporalType.DATE)
-    private Date expiryDate;
+    private Date createdDate;
 
-
-    public Account () {}
+    public Account() {
+    }
 
     public Account(User user, String bankName, long acccountNumber, double accountBalance) {
 
@@ -59,7 +59,10 @@ public class Account {
         this.bankName = bankName;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
+
     public User getUser() {
         return user;
     }
@@ -72,12 +75,18 @@ public class Account {
         return bankName;
     }
 
-    public Long getAccountNumber() { return accountNumber; }
-
-    public Date getExpiryDate() {
-        return expiryDate;
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
+
+    @PrePersist
+    private void createdDate() {
+        this.createdDate = new Date();
+    }
 
 
     @Override
@@ -88,13 +97,12 @@ public class Account {
                 "id:" + id + "\n" +
                 "accountUsername:" + this.user.getName() + "\n" +
                 "accountBalance:" + this.accountBalance + "\n" +
-                "bankName:" +  this.bankName + "\n" +
+                "bankName:" + this.bankName + "\n" +
                 "  }\n";
 
         return s;
 
     }
-
 
 
 }

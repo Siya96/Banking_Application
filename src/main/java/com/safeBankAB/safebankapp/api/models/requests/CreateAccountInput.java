@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CreateAccountInput {
 
     @NotBlank(message = "Name cannot be empty")
-    @MutuallyExclusiveWith()
+    //@MutuallyExclusiveWith()
     private String name;
     @NotBlank(message = "Password cannot be empty")
     private String password;
